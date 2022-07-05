@@ -1,0 +1,10 @@
+mysql:
+  host_name: 127.0.0.1
+  username: root
+  password: 123456
+  port: 3306
+  db_name: chat
+  init_size: 10
+  max_size: 1024
+  max_idle_time: 60
+  connection_timeout: 100

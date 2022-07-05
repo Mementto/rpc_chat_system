@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package mprpc;
+
+option cc_generic_services = true;
+
+// 返回信息
+message ResultCode {
+    int32 errCode = 1;
+    bytes errMsg = 2;
+}
+
+// 好友信息
+message FriendInfo {
+    uint32 userId = 1;
+    bytes name = 2;
+    bytes state = 3;
+}
+
+// 群信息
+message GroupMember {
+    uint32 userId = 1;
+    bytes name = 2;
+    bytes state = 3;
+    bytes role = 4;
+}
+message GroupInfo {
+    uint32 groupId = 1;
+    bytes groupName = 2;
+    bytes groupDesc = 3;
+    repeated GroupMember member = 4;
+}
+
+// 添加好友
+message AddFriendsRequest {
+    uint32 userId = 1;
+    uint32 friendId = 2;
+}
+message AddFriendsResponse {
+    ResultCode result = 1;
+}
+
+// 查询所有好友
+message QueryAllFriendsRequest {
+    uint32 userId = 1;
+}
+message QueryAllFriendsResponse {
+    ResultCode result = 1;
+    repeated FriendInfo friends = 2;
+}
+
+// 创建群聊
+message CreateGroupRequest {
+    uint32 userId = 1;
+    bytes name = 2;
+    bytes desc = 3;
+}
+message CreateGroupResponse {
+    ResultCode result = 1;
+}
+
+// 加入群聊
+message AddGroupRequest {
+    uint32 userId = 1;
+    uint32 groupId = 2;
+}
+message AddGroupResponse {
+    ResultCode result = 1;
+}
+
+// 查询所有群
+message QueryAllGroupsRequest {
+    uint32 userId = 1;
+}
+message QueryAllGroupsResponse {
+    ResultCode result = 1;
+    repeated GroupInfo groups = 2;
+}
+
+// 群聊
+message GroupChatRequest {
+    uint32 userId = 1;
+    uint32 groupId = 2;
+}
+message GroupChatResponse {
+    ResultCode result = 1;
+    repeated uint32 userId = 2;
+}
+
+// 函数实现
+service FriendsServiceRPC {
+    rpc addFriends (AddFriendsRequest) returns (AddFriendsResponse);
+    rpc queryAllFriends (QueryAllFriendsRequest) returns (QueryAllFriendsResponse);
+}
+
+// 函数实现
+service GroupsServiceRPC {
+    rpc createGroup (CreateGroupRequest) returns (CreateGroupResponse);
+    rpc addGroup (AddGroupRequest) returns (AddGroupResponse);
+    rpc queryAllGroups (QueryAllGroupsRequest) returns (QueryAllGroupsResponse);
+    rpc groupChat (GroupChatRequest) returns (GroupChatResponse);
+}
